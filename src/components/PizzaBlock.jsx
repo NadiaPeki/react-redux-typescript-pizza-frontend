@@ -14,6 +14,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
           {types.map((typeId) => {
             return (
               <li
+                key={typeId}
                 onClick={() => setActiveType(typeId)}
                 className={activeType === typeId ? 'active' : ' '}>
                 {typeId === 0 ? 'тонкое' : 'традиционное'}
@@ -24,7 +25,10 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
         <ul>
           {sizes.map((size, i) => {
             return (
-              <li onClick={() => setActiveSize(i)} className={activeSize === i ? 'active' : ' '}>
+              <li
+                key={i}
+                onClick={() => setActiveSize(i)}
+                className={activeSize === i ? 'active' : ' '}>
                 {size} см.
               </li>
             );

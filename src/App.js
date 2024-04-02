@@ -20,8 +20,8 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {pizzas.map((item, index) => {
-              return <PizzaBlock {...item} key={index} />;
+            {pizzas.map((item, imageUrl) => {
+              return <PizzaBlock {...item} key={imageUrl} />;
             })}
           </div>
         </div>

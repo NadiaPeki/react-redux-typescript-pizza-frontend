@@ -15,7 +15,9 @@ function Home() {
       .then((pizzasArr) => {
         setPizzas(pizzasArr);
         setIsLoading(false);
+        console.log(pizzasArr);
       });
+    window.scrollTo(0, 0);
   }, []);
 
   return (

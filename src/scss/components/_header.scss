@@ -8,6 +8,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 660px) {
+      flex-direction: column;
+      text-align: start;
+      justify-content: flex-start;
+      align-items: flex-start;
+      .header__cart {
+        margin: 0 auto;
+        margin-top: 30px;
+      }
+    }
   }
 
   &__logo {

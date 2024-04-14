@@ -3,6 +3,9 @@
 .header {
   border-bottom: 1px solid $gray-line;
   padding: 40px 0;
+  @media (max-width: 660px) {
+    padding-bottom: 0px;
+  }
 
   .container {
     display: flex;
@@ -15,7 +18,7 @@
       justify-content: flex-start;
       align-items: flex-start;
       .header__cart {
-        margin: 0 auto;
+        // margin: 0 auto;
         margin-top: 30px;
       }
     }

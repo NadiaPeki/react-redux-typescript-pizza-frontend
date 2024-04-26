@@ -25,28 +25,27 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setIsLoading(true);
     const sortBy = sortType.replace('-', '');
     const order = sortType.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue !== '' ? `search=${searchValue}` : '';
 
-    fetch(
-      `https://react-redux-typescript-pizza-backend-j7u3.vercel.app/api/pizzas?page=${currentPage}&${category}&sort=${sortBy}&order=${order}&${search}`,
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setPizzas(data.pizzas);
-        if (data.pagination && data.pagination.next && data.pagination.next.page) {
-          setTotalPages(data.pagination.next.page);
-        }
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching pizzas:', error);
-        setIsLoading(false);
-      });
+    try {
+      const response = await fetch(
+        `https://react-redux-typescript-pizza-backend-j7u3.vercel.app/api/pizzas?page=${currentPage}&${category}&sort=${sortBy}&order=${order}&${search}`,
+      );
+      const data = await response.json();
+      setPizzas(data.pizzas);
+      if (data.pagination && data.pagination.next && data.pagination.next.page) {
+        setTotalPages(data.pagination.next.page);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching pizzas:', error);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -72,7 +71,7 @@ function Home() {
     isSearch.current = false;
   }, [categoryId, sortType, searchValue, currentPage]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
         sortProperty: sortType,

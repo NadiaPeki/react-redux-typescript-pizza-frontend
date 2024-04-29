@@ -11,6 +11,7 @@ import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination/Pagination';
 import { sortList } from '../components/Sort';
+import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
 function Home() {
   const navigate = useNavigate();
@@ -20,32 +21,31 @@ function Home() {
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
   const currentPage = useSelector((state) => state.filter.currentPage);
+  const { pizzas } = useSelector((state) => state.pizzas.items);
+  const { status } = useSelector((state) => state.pizzas);
   const { searchValue } = React.useContext(SearchContext);
-  const [pizzas, setPizzas] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
 
-  const fetchPizzas = async () => {
-    setIsLoading(true);
+  const getPizzas = async () => {
     const sortBy = sortType.replace('-', '');
     const order = sortType.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue !== '' ? `search=${searchValue}` : '';
 
-    try {
-      const response = await fetch(
-        `https://react-redux-typescript-pizza-backend-j7u3.vercel.app/api/pizzas?page=${currentPage}&${category}&sort=${sortBy}&order=${order}&${search}`,
-      );
-      const data = await response.json();
-      setPizzas(data.pizzas);
-      if (data.pagination && data.pagination.next && data.pagination.next.page) {
-        setTotalPages(data.pagination.next.page);
-      }
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error fetching pizzas:', error);
-      setIsLoading(false);
-    }
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage,
+      }),
+    );
+
+    // if (fetchPizzas.pagination && fetchPizzas.pagination.next && fetchPizzas.pagination.next.page) {
+    //   setTotalPages(fetchPizzas.pagination.next.page);
+    // }
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -60,14 +60,10 @@ function Home() {
       );
       isSearch.current = true;
     }
-    fetchPizzas();
+    // getPizzas();
   }, []);
-
   useEffect(() => {
-    window.scrollTo(0, 0);
-    if (!isSearch.current) {
-      fetchPizzas();
-    }
+    getPizzas();
     isSearch.current = false;
   }, [categoryId, sortType, searchValue, currentPage]);
 
@@ -97,7 +93,14 @@ function Home() {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : items}</div>
+      {status === 'error' ? (
+        <div className="content__error-info">
+          <h2>An error occurred!</h2>
+          <p>Failed to load pizzas... Please, try again later.</p>
+        </div>
+      ) : (
+        <div className="content__items">{status === 'loading' ? skeletons : items}</div>
+      )}
       <Pagination totalPages={totalPages} />
     </>
   );

@@ -17,11 +17,13 @@ const filterSlice = createSlice({
     },
     setCurrentPage(state, action) {
       state.currentPage = action.payload;
+      console.log(state);
     },
     setFilters(state, action) {
       state.currentPage = Number(action.payload.currentPage);
       state.sort = action.payload.sort;
       state.categoryId = Number(action.payload.categoryId);
+      console.log(state.currentPage);
     },
   },
 });

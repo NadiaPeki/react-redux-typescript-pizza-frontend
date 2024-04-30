@@ -8,36 +8,42 @@ export const fetchPizzas = createAsyncThunk('pizzas/fetchPizzasStatus', async (p
   const data = await response.json();
   return data;
 });
+
 const initialState = {
   items: [],
   status: 'loading',
+  pagination: {
+    totalPages: 1,
+    totalCount: 0,
+  },
 };
 
 const pizzasSlice = createSlice({
   name: 'pizzas',
   initialState,
   reducers: {
-    setItems(state, action) {
-      state.items = action.payload;
+    setPagination(state, action) {
+      state.pagination = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPizzas.pending, (state) => {
         state.status = 'loading';
-        state.items = [];
       })
       .addCase(fetchPizzas.fulfilled, (state, action) => {
-        state.items = action.payload;
+        state.items = action.payload.pizzas;
         state.status = 'success';
+        state.pagination.totalCount = action.payload.pagination.totalCount;
+        state.pagination.totalPages = Math.ceil(action.payload.pagination.totalCount / 6);
       })
+
       .addCase(fetchPizzas.rejected, (state) => {
         state.status = 'error';
-        state.items = [];
       });
   },
 });
 
-export const { setItems } = pizzasSlice.actions;
+export const { setPagination } = pizzasSlice.actions;
 
 export default pizzasSlice.reducer;

@@ -6,7 +6,7 @@ function Categories() {
   const dispatch = useDispatch();
   const categoryId = useSelector((state) => state.filter.categoryId);
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
-  
+
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
   };

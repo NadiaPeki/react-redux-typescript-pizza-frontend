@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setFilters } from '../redux/slices/filterSlice';
+import { selectFilter, setFilters } from '../redux/slices/filterSlice';
 import { SearchContext } from '../App';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
@@ -16,13 +16,10 @@ function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useRef(false);
-  const { searchValue } = React.useContext(SearchContext);
-  const categoryId = useSelector((state) => state.filter.categoryId);
+  const { categoryId, currentPage, searchValue } = useSelector(selectFilter);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
-  const currentPage = useSelector((state) => state.filter.currentPage);
   const pizzas = useSelector((state) => state.pizzas.items);
-  const { status } = useSelector((state) => state.pizzas);
-  const { pagination } = useSelector((state) => state.pizzas);
+  const { status, pagination } = useSelector((state) => state.pizzas);
   const totalPages = useSelector((state) => state.pizzas.pagination.totalPages);
 
   const getPizzas = async () => {

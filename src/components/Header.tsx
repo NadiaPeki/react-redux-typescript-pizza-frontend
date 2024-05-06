@@ -5,9 +5,9 @@ import Search from './Search/Search.jsx';
 import logoSvg from '../assets/img/logo-pizza.svg';
 import { selectCart } from '../redux/slices/cartSlice.js';
 
-function Header() {
+const Header: React.FC = () => {
   const { items, totalPrice } = useSelector(selectCart);
-  const totalCount = items.reduce((sum, item) => {
+  const totalCount = items.reduce((sum: number, item: any) => {
     return item.count + sum;
   }, 0);
 
@@ -62,6 +62,6 @@ function Header() {
       </div>
     </div>
   );
-}
+};
 
 export default Header;

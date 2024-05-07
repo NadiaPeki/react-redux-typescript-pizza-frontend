@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './NotFoundBlock.module.scss'
+import styles from './NotFoundBlock.module.scss';
 
-function NotFoundBlock() {
+const NotFoundBlock: React.FC = () => {
   return (
     <div className={styles.root}>
       <span className={styles.emoji}>🥺</span>
@@ -9,6 +9,6 @@ function NotFoundBlock() {
       <h1>Nothing was found</h1>
     </div>
   );
-}
+};
 
 export default NotFoundBlock;

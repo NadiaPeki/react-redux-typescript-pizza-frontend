@@ -3,9 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import './scss/app.scss';
 import Header from './components/Header.tsx';
 import Home from './pages/Home.tsx';
-import Cart from './pages/Cart';
+import Cart from './pages/Cart.tsx';
 import FullPizza from './pages/FullPizza.tsx';
-import NotFound from './pages/NotFound';
+import NotFound from './pages/NotFound.tsx';
 
 function App() {
   return (

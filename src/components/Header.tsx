@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Search from './Search/Search.jsx';
+import Search from './Search/Search.tsx';
 import logoSvg from '../assets/img/logo-pizza.svg';
 import { selectCart } from '../redux/slices/cartSlice.js';
 

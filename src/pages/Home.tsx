@@ -1,17 +1,17 @@
 import React, { useEffect, useRef } from 'react';
-import qs from 'qs';
+import qs, { ParsedQs } from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectFilter, setFilters } from '../redux/slices/filterSlice.js';
-import Categories from '../components/Categories.jsx';
+import Categories from '../components/Categories.tsx';
 import Sort from '../components/Sort.tsx';
-import PizzaBlock from '../components/PizzaBlock/PizzaBlock.jsx';
-import Skeleton from '../components/PizzaBlock/Skeleton.jsx';
-import Pagination from '../components/Pagination/Pagination.jsx';
+import PizzaBlock from '../components/PizzaBlock/PizzaBlock.tsx';
+import Skeleton from '../components/PizzaBlock/Skeleton.tsx';
+import Pagination from '../components/Pagination/Pagination.tsx';
 import { sortList } from '../components/Sort.tsx';
 import { fetchPizzas, setPagination } from '../redux/slices/pizzasSlice.js';
 
-function Home() {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = useRef(false);
@@ -28,6 +28,7 @@ function Home() {
     const search = searchValue !== '' ? `search=${searchValue}` : '';
 
     dispatch(
+      //@ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -43,12 +44,15 @@ function Home() {
   useEffect(() => {
     if (!currentPage) {
       const params = qs.parse(window.location.search.substring(1));
-      const currentPageFromURL = parseInt(params.currentPage, 10);
-      if (!isNaN(currentPageFromURL)) {
+      let currentPageFromURL: number | undefined;
+      if (typeof params.currentPage === 'string') {
+        currentPageFromURL = parseInt(params.currentPage, 10);
+      }
+      if (currentPageFromURL !== undefined && !isNaN(currentPageFromURL)) {
         dispatch(setFilters({ currentPage: currentPageFromURL }));
       }
     }
-  }, [currentPage]);
+  }, [currentPage, dispatch]);
 
   useEffect(() => {
     if (window.location.search) {
@@ -110,6 +114,6 @@ function Home() {
       <Pagination totalPages={totalPages} currentPage={currentPage} />
     </>
   );
-}
+};
 
 export default Home;

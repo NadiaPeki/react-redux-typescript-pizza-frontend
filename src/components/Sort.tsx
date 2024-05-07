@@ -8,6 +8,7 @@ type SortItem = {
   name: string;
   sortProperty: string;
 };
+
 export const sortList: SortItem[] = [
   { name: 'популярности(DESC)', sortProperty: 'rating' },
   { name: 'популярности(ASC)', sortProperty: '-rating' },
@@ -28,12 +29,14 @@ const Sort: React.FC = () => {
     setOpen(false);
   };
   React.useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (sortRef.current && !sortRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
     };
+
     document.body.addEventListener('click', handleClickOutside);
+
     return () => document.body.removeEventListener('click', handleClickOutside);
   }, []);
 

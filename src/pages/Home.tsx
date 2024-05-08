@@ -1,25 +1,27 @@
 import React, { useEffect, useRef } from 'react';
-import qs, { ParsedQs } from 'qs';
-import { useSelector, useDispatch } from 'react-redux';
+import qs from 'qs';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { selectFilter, setFilters } from '../redux/slices/filterSlice.js';
+import { selectFilter, setFilters } from '../redux/slices/filterSlice.ts';
 import Categories from '../components/Categories.tsx';
 import Sort from '../components/Sort.tsx';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock.tsx';
 import Skeleton from '../components/PizzaBlock/Skeleton.tsx';
 import Pagination from '../components/Pagination/Pagination.tsx';
 import { sortList } from '../components/Sort.tsx';
-import { fetchPizzas, setPagination } from '../redux/slices/pizzasSlice.js';
+import { fetchPizzas, setPagination } from '../redux/slices/pizzasSlice.ts';
+import { RootState, useAppDispatch } from '../redux/store.ts';
+import { initialState } from '../redux/slices/filterSlice.ts';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isMounted = useRef(false);
   const { categoryId, currentPage, searchValue } = useSelector(selectFilter);
-  const sortType = useSelector((state) => state.filter.sort.sortProperty);
-  const pizzas = useSelector((state) => state.pizzas.items);
-  const { status, pagination } = useSelector((state) => state.pizzas);
-  const totalPages = useSelector((state) => state.pizzas.pagination.totalPages);
+  const sortType = useSelector((state: RootState) => state.filter.sort.sortProperty);
+  const pizzas = useSelector((state: RootState) => state.pizzas.items);
+  const { status, pagination } = useSelector((state: RootState) => state.pizzas);
+  const totalPages = useSelector((state: RootState) => state.pizzas.pagination.totalPages);
 
   const getPizzas = async () => {
     const sortBy = sortType.replace('-', '');
@@ -28,7 +30,6 @@ const Home: React.FC = () => {
     const search = searchValue !== '' ? `search=${searchValue}` : '';
 
     dispatch(
-      //@ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -49,7 +50,14 @@ const Home: React.FC = () => {
         currentPageFromURL = parseInt(params.currentPage, 10);
       }
       if (currentPageFromURL !== undefined && !isNaN(currentPageFromURL)) {
-        dispatch(setFilters({ currentPage: currentPageFromURL }));
+        dispatch(
+          setFilters({
+            searchValue: '',
+            categoryId: 0,
+            sort: initialState.sort,
+            currentPage: currentPageFromURL ?? 0,
+          }),
+        );
       }
     }
   }, [currentPage, dispatch]);
@@ -82,7 +90,7 @@ const Home: React.FC = () => {
       const queryString = qs.stringify({
         sortProperty: sortType,
         categoryId,
-        currentPage,
+        currentPage: currentPage.toString(),
       });
       navigate(`?${queryString}`);
     } else {

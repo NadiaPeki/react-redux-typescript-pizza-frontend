@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { Sort } from './filterSlice';
 
 type Pizza = {
   id: string;
@@ -12,6 +13,10 @@ type Pizza = {
 type Pagination = {
   totalPages: number;
   totalCount: number;
+  next?: {
+    page: number;
+    url: string;
+  } | null;
 };
 
 export enum Status {
@@ -34,10 +39,16 @@ const initialState: PizzaSliceState = {
     totalCount: 0,
   },
 };
-
+export type SearchPizzaParams = {
+  sortBy: string;
+  order: string;
+  category: string;
+  search: string;
+  currentPage: number;
+};
 export const fetchPizzas = createAsyncThunk<
   { pizzas: Pizza[]; pagination: Pagination },
-  Record<string, string>
+  SearchPizzaParams
 >('pizzas/fetchPizzasStatus', async (params) => {
   const { sortBy, order, category, search, currentPage } = params;
   const response = await fetch(

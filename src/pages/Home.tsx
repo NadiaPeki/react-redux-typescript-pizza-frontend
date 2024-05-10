@@ -2,16 +2,19 @@ import React, { useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { selectFilter, setFilters } from '../redux/slices/filterSlice.ts';
+import { setFilters } from '../redux/filter/slice.ts';
+import { selectFilter } from '../redux/filter/selectors.ts';
 import Categories from '../components/Categories.tsx';
 import SortPopup from '../components/Sort.tsx';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock.tsx';
 import Skeleton from '../components/PizzaBlock/Skeleton.tsx';
 import Pagination from '../components/Pagination/Pagination.tsx';
 import { sortList } from '../components/Sort.tsx';
-import { SearchPizzaParams, fetchPizzas, setPagination } from '../redux/slices/pizzasSlice.ts';
+import { setPagination } from '../redux/pizza/slice.ts';
+import { fetchPizzas } from '../redux/pizza/asyncActions.ts';
+import { SearchPizzaParams } from '../redux/pizza/types.ts';
 import { RootState, useAppDispatch } from '../redux/store.ts';
-import { initialState } from '../redux/slices/filterSlice.ts';
+import { initialState } from '../redux/filter/slice.ts';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -99,7 +102,7 @@ const Home: React.FC = () => {
   //     isMounted.current = true;
   //   }
   // }, [categoryId, sortType, searchValue, currentPage, totalPages]);
-  
+
   const items = Array.isArray(pizzas)
     ? pizzas.map((item) => <PizzaBlock {...item} key={item.id} />)
     : null;

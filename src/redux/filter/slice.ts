@@ -5,7 +5,7 @@ export const initialState: FilterSliceState = {
   searchValue: '',
   categoryId: 0,
   currentPage: 1,
-  sort: { name: 'популярности', sortProperty: SortPropertyEnum.RATING_DESC },
+  sort: { name: 'rating', sortProperty: SortPropertyEnum.RATING_DESC },
 };
 
 const filterSlice = createSlice({

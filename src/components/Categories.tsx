@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId } from '../redux/filter/slice';
 import { RootState } from '../redux/store';
 
-const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+const categories = ['All', 'Meet', 'Vege', 'Grill', 'Spice', 'Special'];
 
 const Categories: React.FC = () => {
   const dispatch = useDispatch();

@@ -115,7 +115,7 @@ const Home: React.FC = () => {
         <Categories />
         <SortPopup />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      <h2 className="content__title">All pizzas</h2>
       {status === 'error' ? (
         <div className="content__error-info">
           <h2>An error occurred!</h2>

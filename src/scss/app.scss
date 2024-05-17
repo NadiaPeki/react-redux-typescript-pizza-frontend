@@ -104,7 +104,7 @@ body {
 
   &--cart {
     max-width: 820px;
-    margin: 90px auto;
+    margin: 10px auto;
     .content__title {
       margin: 0;
     }
@@ -253,7 +253,7 @@ body {
       width: 13%;
 
       @media (max-width: 900px) {
-        gap: 5px;
+        gap: 3px;
       }
       @media (max-width: 500px) {
         margin-right: 20px;

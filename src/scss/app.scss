@@ -23,10 +23,9 @@ body {
 
 .content {
   padding: 40px 0;
-    @media (max-width: 1400px) {
-padding: 20px 0;
+  @media (max-width: 1200px) {
+    padding: 20px 0;
   }
-
 
   &__error-info {
     display: flex;
@@ -146,6 +145,7 @@ padding: 20px 0;
   &__clear {
     display: flex;
     align-items: center;
+    margin-top: 12px;
     cursor: pointer;
     @include noselect();
 
@@ -184,14 +184,13 @@ padding: 20px 0;
     padding-top: 30px;
     margin-top: 30px;
 
-   
     &-img {
       display: flex;
       align-items: center;
       margin-right: 15px;
       width: 10%;
       @media (max-width: 850px) {
-        margin-right: 25px;
+        margin-right: 30px;
       }
       @media (max-width: 650px) {
         margin-right: 35px;
@@ -329,7 +328,7 @@ padding: 20px 0;
       justify-content: flex-end;
       width: 4%;
       @media (max-width: 500px) {
-      padding-left: 20px;
+        padding-left: 20px;
       }
 
       .button {

@@ -55,5 +55,12 @@
     "eslint-plugin-react": "^7.34.1",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5"
+  },
+  "overrides": {
+    "react-scripts": {
+      "dependencies": {
+        "typescript": "^5.4.5"
+      }
+    }
   }
 }

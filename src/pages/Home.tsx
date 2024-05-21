@@ -45,65 +45,11 @@ const Home: React.FC = () => {
     window.scrollTo(0, 0);
   };
 
-  // useEffect(() => {
-  //   if (!currentPage) {
-  //     const params = qs.parse(window.location.search.substring(1));
-  //     let currentPageFromURL: number | undefined;
-  //     if (typeof params.currentPage === 'string') {
-  //       currentPageFromURL = parseInt(params.currentPage, 10);
-  //     }
-  //     if (currentPageFromURL !== undefined && !isNaN(currentPageFromURL)) {
-  //       dispatch(
-  //         setFilters({
-  //           searchValue: '',
-  //           categoryId: 0,
-  //           sort: initialState.sort,
-  //           currentPage,
-  //         }),
-  //       );
-  //     }
-  //   }
-  // }, [currentPage, dispatch]);
-
-  // useEffect(() => {
-  //   if (window.location.search) {
-  //     const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
-  //     const sort = sortList.find((obj) => obj.sortProperty === params.sortBy);
-  //     dispatch(
-  //       setFilters({
-  //         searchValue: params.search,
-  //         categoryId: Number(params.category),
-  //         currentPage: params.currentPage,
-  //         sort: sort ? sort : sortList[0],
-  //       }),
-  //     );
-  //   }
-  // }, []);
-
-  useEffect(() => {
+   useEffect(() => {
     getPizzas();
   }, [categoryId, sortType, searchValue, currentPage]);
 
-  // useEffect(() => {
-  //   if (status === 'success' && pagination && pagination.next && pagination.next.page) {
-  //     dispatch(setPagination(pagination.next.page));
-  //   }
-  // }, [status, pagination, dispatch]);
-
-  // useEffect(() => {
-  //   if (isMounted.current) {
-  //     const queryString = qs.stringify({
-  //       sortProperty: sortType,
-  //       categoryId,
-  //       currentPage: currentPage.toString(),
-  //     });
-  //     navigate(`?${queryString}`);
-  //   } else {
-  //     isMounted.current = true;
-  //   }
-  // }, [categoryId, sortType, searchValue, currentPage, totalPages]);
-
-  const items = Array.isArray(pizzas)
+   const items = Array.isArray(pizzas)
     ? pizzas.map((item) => <PizzaBlock {...item} key={item.id} />)
     : null;
 
